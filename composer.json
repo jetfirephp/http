@@ -1,0 +1,24 @@
+{
+    "name": "jetfirephp/http",
+    "type": "library",
+    "description": "JetFire - Http global variables",
+    "keywords": ["Http","$_POST","$_GET","$_SERVER","$_FILES","$_SESSION"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sumugan Sinnarasa",
+            "email": "mugan27@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/http-foundation" : "v2.8.2"
+    },
+    "autoload": {
+        "psr-4":{
+            "JetFire\\Http\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
