@@ -2,7 +2,7 @@
     "name": "jetfirephp/http",
     "type": "library",
     "description": "JetFire - Http global variables",
-    "keywords": ["Http","$_POST","$_GET","$_SERVER","$_FILES","$_SESSION"],
+    "keywords": ["Http","Request","Response"],
     "license": "MIT",
     "authors": [
         {
