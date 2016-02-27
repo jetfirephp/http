@@ -2,9 +2,9 @@
 
 namespace JetFire\Http;
 
-use \Symfony\Component\HttpFoundation\RedirectResponse as SymfonyResponse;
+use \Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-class Response extends SymfonyResponse{
+class Response extends SymfonyResponse implements ResponseInterface{
 
     public function answer($content , $status = 200,$type = 'text/html'){
         $this->setContent($content);
@@ -13,10 +13,13 @@ class Response extends SymfonyResponse{
         $this->send();
     }
 
-    public function redirect($path,$status = null,$type = 'text/html'){
-        if(!is_null($status))$this->setStatusCode($status);
-        $this->headers->set('Content-type',$type);
-        return $this->setTargetUrl($path);
+    /**
+     * @param array $headers
+     */
+    public function setHeaders($headers = [])
+    {
+        foreach($headers as $key => $content)
+            $this->headers->set($key,$content);
     }
 
 } 

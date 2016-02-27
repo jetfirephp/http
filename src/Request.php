@@ -345,7 +345,7 @@ class Request extends SymfonyRequest{
      */
     public function flush()
     {
-        $this->session()->getFlashBag()->set([]);
+        $this->session()->getFlashBag()->clear();
     }
 
     /**
@@ -554,7 +554,6 @@ class Request extends SymfonyRequest{
         }
         return $results;
     }
-
 
     public function submit($value = null,$token = []){
         if(is_array($value))$token = $value;

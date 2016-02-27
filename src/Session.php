@@ -2,50 +2,34 @@
 
 namespace JetFire\Http;
 
+use \Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
 
-class Session extends \Symfony\Component\HttpFoundation\Session\Session{
+/**
+ * Class Session
+ * @package JetFire\Http
+ */
+class Session extends SymfonySession{
 
 
     /**
-     * @param $name
+     * @param $key
      * @return null
      */
-    public function take($name)
+    public function take($key)
     {
-        $parsed = explode('.', $name);
-        $result = null;
-        while ($parsed) {
-            $next = array_shift($parsed);
-            if (!is_null($this->get($next)))
-                $result = $this->get($next);
-            else
-                return null;
-        }
-        return $result;
+        $key = str_replace('.','/',$key);
+        return $this->get($key);
     }
 
 
     /**
-     * @param $name
+     * @param $key
      * @param $value
      */
-    public function put($name, $value)
+    public function put($key, $value)
     {
-        $parsed = explode('.', $name);
-
-        $session =& $_SESSION;
-
-        while (count($parsed) > 1) {
-            $next = array_shift($parsed);
-
-            if ( ! isset($session[$next]) || ! is_array($session[$next])) {
-                $session[$next] = [];
-            }
-
-            $session =& $session[$next];
-        }
-
-        $session[array_shift($parsed)] = $value;
+        $key = str_replace('.','/',$key);
+        $this->set($key,$value);
     }
 
     /**
@@ -53,8 +37,34 @@ class Session extends \Symfony\Component\HttpFoundation\Session\Session{
      * @return $this
      */
     public function destroy($key = null){
-        if(is_null($key)){session_unset();}else{unset($_SESSION[$key]);}
+        if(is_null($key)){$this->clear();}else{
+            $key = str_replace('.','/',$key);
+            $this->remove($key);
+        }
         return $this;
     }
 
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function flash($key,$value){
+        $this->getFlashBag()->add($key,$value);
+    }
+
+    /**
+     * @param $key
+     * @param array $default
+     * @return array
+     */
+    public function getFlash($key,$default = []){
+        return $this->getFlashBag()->get($key,$default);
+    }
+
+    /**
+     * @return array
+     */
+    public function allFlash(){
+        return $this->getFlashBag()->all();
+    }
 } 
