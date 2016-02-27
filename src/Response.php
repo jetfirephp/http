@@ -4,7 +4,7 @@ namespace JetFire\Http;
 
 use \Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-class Response extends SymfonyResponse implements ResponseInterface{
+class Response extends SymfonyResponse{
 
     public function answer($content , $status = 200,$type = 'text/html'){
         $this->setContent($content);
