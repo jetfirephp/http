@@ -13,13 +13,4 @@ class Response extends SymfonyResponse{
         $this->send();
     }
 
-    /**
-     * @param array $headers
-     */
-    public function setHeaders($headers = [])
-    {
-        foreach($headers as $key => $content)
-            $this->headers->set($key,$content);
-    }
-
 } 
