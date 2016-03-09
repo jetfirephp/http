@@ -555,31 +555,7 @@ class Request extends SymfonyRequest{
         return $results;
     }
 
-    public function submit($value = null,$token = []){
-        if(is_array($value))$token = $value;
-        if(!isset($token['token'])) {
-            if (!isset($token['time'])) $token['time'] = 600;
-            if (!isset($token['name'])) $token['name'] = '';
-            if (!isset($token['referer'])) $token['referer'] = null;
-            if (!$this->isToken($token['time'], $token['name'], $token['referer'])) return false;
-        }
-        if(!is_array($value) && !is_null($value))
-            return (isset($_POST[$value]))?true:false;
-        return (isset($_POST['submit']))?true:false;
-    }
-
-    private function isToken($time, $name = '', $referer = null)
-    {
-        if (!is_null($this->session()->get($name . '_token')) && !is_null($this->session()->get($name . '_token_time')) && $this->request->get($name . '_token') != '') {
-            if ($this->session()->get($name . '_token') == $this->request->get($name . '_token')) {
-                if ($this->session()->get($name . '_token_time') >= (time() - $time)) {
-                    if (is_null($referer)) return true;
-                    else if (!is_null($referer) && $this->server->get('HTTP_REFERER') == $referer) return true;
-                    $this->session()->remove($name . '_token');
-                    $this->session()->remove($name . '_token_time');
-                }
-            }
-        }
-        return false;
+    public function referer(){
+        return $this->server->get('HTTP_REFERER');
     }
 } 
